@@ -1,6 +1,7 @@
 const express = require('express');
 const server = express();
 const route = require('./routes/api.route');
+const handleError = require('./middlewares/handle.error');
 global.config = require('./config.json');
 
 const PORT = global.config.port;
@@ -21,13 +22,7 @@ server.use(function(req, res, next) {
     });
 });
 
-server.use(function(error, req, res, next) {
-    res.status(error.status || 400);
-    res.json({
-        msg : error.msg || 'Unknown error occured',
-        status : error.status || 400
-    });
-});
+server.use(handleError);
 
 server.listen(PORT, function(error, success) {
     if (!error)

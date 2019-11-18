@@ -1,31 +1,108 @@
-const query = require("../../components/sql/query");
+userService = require('../services/user.service');
 
-function insert(req, res, next) {
-  console.log(req.body);
-  query(
-    `INSERT into users values('${req.body.username}', '${req.body.email}', '${req.body.password}', 1);`
-  )
+function getAllUsers(req, res, next) {
+  userService.findAll()
     .then(function(result) {
       res.json({
-        msg: "Account Created, you can now login"
+        status : 'Success',
+        data : result
       });
     })
     .catch(function(error) {
       next({
-        msg: error
+        msg : error
       });
     });
 }
 
-function remove(req, res, next) {}
+function addUser(req, res, next) {
+  userService.add({
+    username : req.body.username,
+    email : req.body.email,
+    password : req.body.password
+  })
+  .then(function(result) {
+    res.json({
+      status : 'success',
+      msg: "User Added"
+    });
+  })
+  .catch(function(error) {
+    next({
+      msg: error
+    });
+  });
+}
 
-function update(req, res, next) {}
+function removeUser(req, res, next) {
+  userService.remove(req.params.username)
+  .then(function(result) {
+    res.json({
+      status : 'success',
+      msg : 'User Removed!'
+    })
+  })
+  .catch(function(error) {
+    next({
+      msg : error
+    });
+  });
+}
 
-function search(req, res, next) {}
+function putUser(req, res, next) {
+  userService.put(req.params.username, {
+    username : req.body.username,
+    email : req.body.email,
+    password : req.body.password
+  })
+  .then(function (result) {
+    res.json({
+      status : 'success',
+      msg : 'User Updated'
+    })
+  })
+  .catch(function(error) {
+    next({
+      msg : error
+    });
+  });
+}
+
+function patchUser(req, res, next) {
+  userService.patch(req.params.username, req.body.updates)
+  .then(function (result) {
+    res.json({
+      status : 'success',
+      msg : 'User Updated'
+    })
+  })
+  .catch(function(error) {
+    next({
+      msg : error
+    });
+  });
+}
+
+function getUser(req, res, next) {
+  userService.find(req.params.username)
+  .then(function(result) {
+    res.json({
+      status : 'success',
+      user : result[0]
+    });
+  })
+  .catch(function(error) {
+    next({
+      msg : error
+    });
+  });
+}
 
 module.exports = {
-  insert,
-  remove,
-  update,
-  search
+  getAllUsers,
+  addUser,
+  removeUser,
+  putUser,
+  patchUser,
+  getUser
 };

@@ -2,12 +2,13 @@ const router = require('express').Router();
 const control = require('../controllers/controller');
 
 router.route('/')
-    .get()
-    .post()
+    .get(control.getAllUsers)
+    .post(control.addUser)
 
 router.route('/:username')
-    .get()
-    .put()
-    .patch()
+    .get(control.getUser)
+    .put(control.putUser)
+    .patch(control.patchUser)
+    .delete(control.removeUser)
 
-export default router;
+module.exports = router;
