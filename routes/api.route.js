@@ -1,17 +1,17 @@
 const route = require('express').Router();
 
-const authorize = require('../middlewares/authorize');
-
 const signupRoute = require('../user/routes/signup.route');
 const loginRoute = require('../user/routes/login.route');
-const contentRoute = require('../contents/routes/content.route');
-
 const userRoute = require('../user/routes/user.route');
+const todosRoute = require('../todos/routes/todos.route');
+
+const authorize = require('../middlewares/authorize');
+const refreshToken = require('../middlewares/refresh.token');
 
 route.use('/signup', signupRoute);
 route.use('/login', loginRoute);
-route.use('/content', authorize, contentRoute);
-
+route.use('/todos', authorize, todosRoute);
+route.get('/refreshToken', refreshToken);
 
 route.use('/users', userRoute);
 

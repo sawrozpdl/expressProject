@@ -1,4 +1,7 @@
 {
     "port" : 3000,
-    "encrypt" : "sawroz"
+    "accessTokenSecret" : "sawroz",
+    "refreshTokenSecret" : "rozpdl",
+    "accessTokenLifeSpan" : "45s",
+    "refreshTokenLifeSpan" : "100d"
 }

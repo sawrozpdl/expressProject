@@ -1,6 +1,6 @@
-const query = require("../../components/sql/query");
 const jwt = require("jsonwebtoken");
 const userService = require('./user.service');
+const config = require('../../config.json');
 
 module.exports = function(req, res, next) {
   userService.find(req.body.username)
@@ -10,18 +10,32 @@ module.exports = function(req, res, next) {
           msg: "No user"
         });
       if (req.body.password === result[0].password) {
-        const token = jwt.sign(
+        const accessToken = jwt.sign(
           {
             data: req.body.username
           },
-          global.config.encrypt,
+          config.accessTokenSecret,
           {
-            expiresIn : '1m'
+            expiresIn : config.accessTokenLifeSpan
           } 
         );
-        console.log(token);
-        req.body.token = token;
-        next();
+        const refreshToken = jwt.sign(
+          {
+            data: req.body.username
+          },
+          config.refreshTokenSecret,
+          {
+            expiresIn : config.refreshTokenLifeSpan
+          } 
+        );
+        userService.patch(req.body.username, {
+          refreshToken : refreshToken
+        });
+        res.json({
+          msg : 'You are logged in!',
+          accessToken : accessToken,
+          refreshToken : refreshToken
+      });
       } else
         next({
           msg: "Wrong Password"

@@ -16,6 +16,10 @@ function find(user) {
     });
 }
 
+function getUserBy(info, user) {
+    return userDao.select(info, user)
+}
+
 function add(user) {
     return userDao.insert(user);
 }
@@ -38,5 +42,5 @@ function patch(username, updates) {
 }
 
 module.exports = {
-    find,findAll,findActive, add, remove, put, patch
+    find,findAll,getUserBy,findActive, add, remove, put, patch
 }

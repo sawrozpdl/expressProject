@@ -2,10 +2,11 @@ const express = require('express');
 const server = express();
 const route = require('./routes/api.route');
 const handleError = require('./middlewares/handle.error');
-global.config = require('./config.json');
 
-const PORT = global.config.port;
 
+config = require('./config.json');
+
+const PORT = config.port;
 
 server.use(express.urlencoded({
     extended:true

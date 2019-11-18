@@ -1,16 +1,8 @@
 const router = require('express').Router();
-const logIn = require('../services/user.login');
-
-
-function sendToken (req, res, next) {
-    res.json({
-        msg : 'You are logged in!',
-        token : req.body.token
-    });
-}
+const logInUser = require('../services/user.login');
 
 router.route('/')
-.post(logIn, sendToken)
+.post(logInUser)
 .get(function (req, res, next) {
     res.json({
         msg : 'Login Form Goes Here??'

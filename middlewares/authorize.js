@@ -1,6 +1,13 @@
 const jwt = require('jsonwebtoken');
+const config = require('../config.json');
 
 module.exports = function(req, res, next) {
+    if (!req.headers.authorization) {
+        return next({
+            msg : 'Please login for the access',
+            status : 401
+        });
+    }
     const receivedToken = req.headers.authorization.split(' ')[1];
     if (!receivedToken) {
         return next({
@@ -8,18 +15,16 @@ module.exports = function(req, res, next) {
             status : 401
         });
     }
-
-    jwt.verify(receivedToken, config.encrypt, function(error, decoded) {
+    jwt.verify(receivedToken, config.accessTokenSecret, function(error, decoded) {
         if (error) {
             next({
-                msg : 'Token Expired or Modified',
+                msg : 'Invalid or Modified Token',
                 error,
                 status : 401
             })
         }
         else {
-            console.log('Decoded => ', decoded);
-            req.userData = decoded;
+            req.username = decoded.data;
             next();
         }
     });
