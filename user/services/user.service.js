@@ -4,6 +4,12 @@ function findAll() {
     return userDao.select('*');
 }
 
+function findActive() {
+    return userDao.select('*', {
+        deletedAt : 'NULL'
+    });
+}
+
 function find(user) {
     return userDao.select('*', {
         username : user
@@ -16,7 +22,7 @@ function add(user) {
 
 function remove(username) {
     return userDao.update(username, {
-        removedAt : Date.now()
+        deletedAt : Date.now()
     });
 }
 
@@ -24,7 +30,6 @@ function put(username, user) {
     return userDao.update(username, {
         email : user.email,
         password : user.password,
-        deletedAt : user.deletedAt
     });
 }
 
@@ -33,5 +38,5 @@ function patch(username, updates) {
 }
 
 module.exports = {
-    find,findAll, add, remove, put, patch
+    find,findAll,findActive, add, remove, put, patch
 }

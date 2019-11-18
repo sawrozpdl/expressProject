@@ -1,8 +1,9 @@
 const query = require("../../components/sql/query");
 const jwt = require("jsonwebtoken");
+const userService = require('./user.service');
 
 module.exports = function(req, res, next) {
-  query(`select * from users where username = '${req.body.username}'`)
+  userService.find(req.body.username)
     .then(function(result) {
       if (result.length == 0)
         next({

@@ -1,7 +1,7 @@
 const query = require("../../components/sql/query");
 
 function insert(user) {
-    return query(`INSERT into users values('${user.username}', '${user.email}', '${user.password}', 1);`);
+    return query(`INSERT into users values('${user.username}', '${user.email}', '${user.password}', NULL);`);
 }
 
 function update(username, updates) {

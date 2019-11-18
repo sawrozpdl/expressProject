@@ -51,7 +51,6 @@ function removeUser(req, res, next) {
 
 function putUser(req, res, next) {
   userService.put(req.params.username, {
-    username : req.body.username,
     email : req.body.email,
     password : req.body.password
   })
@@ -69,7 +68,7 @@ function putUser(req, res, next) {
 }
 
 function patchUser(req, res, next) {
-  userService.patch(req.params.username, req.body.updates)
+  userService.patch(req.params.username, req.body)
   .then(function (result) {
     res.json({
       status : 'success',
