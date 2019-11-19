@@ -1,7 +1,7 @@
-userService = require("../services/todos.service");
+todoService = require("../services/todos.service");
 
 function getAllTodos(req, res, next) {
-  userService
+  todoService
     .findAll()
     .then(function(result) {
       res.json({
@@ -17,7 +17,7 @@ function getAllTodos(req, res, next) {
 }
 
 function addTodo(req, res, next) {
-  userService
+  todoService
     .add(req.body.content)
     .then(function(result) {
       res.json({
@@ -33,7 +33,7 @@ function addTodo(req, res, next) {
 }
 
 function removeTodo(req, res, next) {
-  userService
+  todoService
     .remove(req.params.todo_id)
     .then(function(result) {
       res.json({
@@ -49,7 +49,7 @@ function removeTodo(req, res, next) {
 }
 
 function putTodo(req, res, next) {
-  userService
+  todoService
     .put(req.params.todo_id, req.body.content)
     .then(function(result) {
       res.json({
@@ -65,10 +65,9 @@ function putTodo(req, res, next) {
 }
 
 function getTodo(req, res, next) {
-  userService
+  todoService
     .find(req.params.todo_id)
     .then(function(result) {
-      console.log("result : ", result[0]);
       if (result[0]) {
         res.json({
           status: "success",
@@ -76,7 +75,7 @@ function getTodo(req, res, next) {
         });
       } else
         next({
-          msg : `No todo found with id : ${req.params.todo_id}`
+          msg: `No todo found with id : ${req.params.todo_id}`
         });
     })
     .catch(function(error) {
@@ -86,9 +85,30 @@ function getTodo(req, res, next) {
     });
 }
 
+function addTags(req, res, next) {
+  todoService
+    .find(req.params.todo_id)
+    .then(function(result) {
+      todoService.patch(req.params.todo_id, {
+        tags: result[0].tags + req.body.tags
+      });
+    })
+    .then(function(success) {
+      res.json({
+        status: "success"
+      });
+    })
+    .catch(function(error) {
+      next({
+        msg: error
+      });
+    })
+}
+
 module.exports = {
   getAllTodos,
   addTodo,
+  addTags,
   removeTodo,
   putTodo,
   getTodo

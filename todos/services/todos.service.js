@@ -1,6 +1,7 @@
 const todosDao = require("../daos/todos.dao");
 
 function findAll() {
+    console.log('todo finding');
   return todosDao.select("*");
 }
 
@@ -36,6 +37,10 @@ function put(todo_id, todo) {
   });
 }
 
+function patch(todo_id, updates) {
+    return todosDao.update(todo_id, updates)
+}
+
 module.exports = {
   find,
   findAll,
@@ -43,5 +48,6 @@ module.exports = {
   findActive,
   add,
   remove,
-  put
+  put,
+  patch
 };

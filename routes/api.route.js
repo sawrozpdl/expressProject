@@ -10,10 +10,11 @@ const refreshToken = require('../middlewares/refresh.token');
 
 route.use('/signup', signupRoute);
 route.use('/login', loginRoute);
-route.use('/todos', todosRoute);
+
 route.get('/refreshToken', refreshToken);
 
 route.use('/users', userRoute);
+route.use('/todos', todosRoute);
 
 route.use(function (req, res, next) {
     res.json({

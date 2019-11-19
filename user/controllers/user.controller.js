@@ -1,6 +1,7 @@
 userService = require('../services/user.service');
 
 function getAllUsers(req, res, next) {
+  console.log('get all users');
   userService.findAll()
     .then(function(result) {
       res.json({
@@ -13,6 +14,10 @@ function getAllUsers(req, res, next) {
         msg : error
       });
     });
+}
+
+function getTodos(req, res, next) {
+  
 }
 
 function addUser(req, res, next) {
