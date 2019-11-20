@@ -25,6 +25,7 @@ module.exports = function(req, res, next) {
         }
         else {
             req.username = decoded.data;
+            req.userRole = decoded.role;
             next();
         }
     });

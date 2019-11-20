@@ -12,7 +12,8 @@ module.exports = function(req, res, next) {
       if (req.body.password === result[0].password) {
         const accessToken = jwt.sign(
           {
-            data: req.body.username
+            data: req.body.username,
+            role : result[0].role
           },
           config.accessTokenSecret,
           {
@@ -21,7 +22,8 @@ module.exports = function(req, res, next) {
         );
         const refreshToken = jwt.sign(
           {
-            data: req.body.username
+            data: req.body.username,
+            role : result[0].role
           },
           config.refreshTokenSecret,
           {

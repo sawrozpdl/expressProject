@@ -1,5 +1,10 @@
 todoService = require("../services/todos.service");
 
+function getTodos(req, res, next) {
+  if (req.userRole === "admin") getAllTodos(req, res, next);
+  else getTodosOf(req, res, next);
+}
+
 function getAllTodos(req, res, next) {
   todoService
     .findAll()
@@ -16,16 +21,41 @@ function getAllTodos(req, res, next) {
     });
 }
 
+function getTodosOf(req, res, next) {
+  console.log("get todos of");
+  todoService
+    .getTodosFor(req.body.username)
+    .then(function(result) {
+      res.json({
+        status: "Success",
+        data: result
+      });
+    })
+    .catch(function(error) {
+      next({
+        msg: error
+      });
+    });
+}
+
 function addTodo(req, res, next) {
   todoService
-    .add(req.body.content)
-    .then(function(result) {
+    .add(req.body.content, req.body.tags)
+    .then(function(success) {
+      return todoService.idFor(req.body.content) // if values to be passed use return 
+    })
+    .then(function(result) { // result is the above returned output
+      let todo_id = result[0].todo_id;
+      todoService.registerTodoFor(req.body.username, todo_id)
+    })
+    .then(function(success) {
       res.json({
         status: "success",
         msg: "Todo Added"
       });
     })
     .catch(function(error) {
+      console.log('ikr');
       next({
         msg: error
       });
@@ -102,11 +132,11 @@ function addTags(req, res, next) {
       next({
         msg: error
       });
-    })
+    });
 }
 
 module.exports = {
-  getAllTodos,
+  getTodos,
   addTodo,
   addTags,
   removeTodo,

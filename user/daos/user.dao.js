@@ -19,32 +19,6 @@ function select(selection, condition) {
     return query(`SELECT ${selection} from users ${conditions.substring(0, conditions.length - 4)}`);
 }
 
-function selectJoin(selection, condition, ...tables) {
-    let joins = '';
-    for (let i = 0; i < tables.length; i++) {
-        let prevTable = (i == 0) ? 'users' : tables[i - 1].tableName;
-        joins += `JOIN ${tables[i].tableName} ON ${prevTable}.${tables[i].condition} = ${tables[i].tableName}.${tables[i].condition} `;
-    }
-    let conditions = 'WHERE ';
-    for (let key in condition) 
-        conditions += `link.${key} = '${condition[key]}' AND`;
-    return query(`SELECT ${selection} FROM users ${joins + conditions.substring(0, conditions.length - 4)}`);
-}
-
-selectJoin('content',{
-    username : 'sawroz1'
-}, {
-    tableName : 'link',
-    condition : 'username'
-},{
-    tableName : 'todos',
-    condition : 'todo_id'
-}).then(function(data) {
-    console.log('Result : ', data);
-}).catch(function(error) {
-    console.log(error);
-});
-
 module.exports = {
     insert, update, select
 }

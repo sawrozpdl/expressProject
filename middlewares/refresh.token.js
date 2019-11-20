@@ -28,7 +28,7 @@ module.exports = function(req, res, next) {
             status: 401
           });
         } else {
-          const token = jwt.sign({data : decoded.data}, config.accessTokenSecret, {
+          const token = jwt.sign({data : decoded.data, role : decoded.role}, config.accessTokenSecret, {
             expiresIn: config.accessTokenLifeSpan
           });
           res.json({

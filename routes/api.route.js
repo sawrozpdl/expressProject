@@ -14,7 +14,7 @@ route.use('/login', loginRoute);
 route.get('/refreshToken', refreshToken);
 
 route.use('/users', userRoute);
-route.use('/todos', todosRoute);
+route.use('/todos',authorize, todosRoute);
 
 route.use(function (req, res, next) {
     res.json({

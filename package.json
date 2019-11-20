@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test" : "node server.js",
-    "ready" : "fuser -n tcp -k 3000"
+    "test" : "fuser -n tcp -k 3000 && node server.js"
   },
   "author": "",
   "license": "ISC",

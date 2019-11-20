@@ -17,12 +17,35 @@ function find(todoId) {
   });
 }
 
+function idFor(content) {
+  return todosDao.select('todo_id', {
+    content : content
+  });
+}
+
+function registerTodoFor(username, todo_id) {
+  return todosDao.insertLink(username, todo_id);
+}
+
 function getTodoBy(info, todo_id) {
   return todosDao.select(info, todo_id);
 }
 
-function add(todo) {
-  return todosDao.insert(todo);
+function getTodosFor(user) {
+  console.log('get todos for');
+  return todosDao.selectJoin('content',{
+      users_username : user
+  }, {
+      tableName : 'link',
+      condition : 'todo_id'
+  },{
+      tableName : 'users',
+      condition : 'username'
+  });
+}
+
+function add(todo, tags) {
+  return todosDao.insert(todo, tags);
 }
 
 function remove(todo_id) {
@@ -44,7 +67,10 @@ function patch(todo_id, updates) {
 module.exports = {
   find,
   findAll,
+  idFor,
   getTodoBy,
+  getTodosFor,
+  registerTodoFor,
   findActive,
   add,
   remove,

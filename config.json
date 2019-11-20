@@ -2,6 +2,6 @@
     "port" : 3000,
     "accessTokenSecret" : "sawroz",
     "refreshTokenSecret" : "rozpdl",
-    "accessTokenLifeSpan" : "45s",
+    "accessTokenLifeSpan" : "1d",
     "refreshTokenLifeSpan" : "100d"
 }

@@ -42,5 +42,5 @@ function patch(username, updates) {
 }
 
 module.exports = {
-    find,findAll,getUserBy,findActive, add, remove, put, patch
+    find,findAll, getUserBy,findActive, add, remove, put, patch
 }

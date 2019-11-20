@@ -2,7 +2,7 @@ const router = require('express').Router();
 const todoControl = require('../controllers/todos.controller');
 
 router.route('/')
-    .get(todoControl.getAllTodos)
+    .get(todoControl.getTodos)
     .post(todoControl.addTodo)
 
 router.route('/:todo_id')
