@@ -23,7 +23,7 @@ function insertLink(username, todo_id) {
     return query(`INSERT into link values ('${username}', '${todo_id}')`);
 }
 
-function selectJoin(selection, condition, ...tables) {`SELECT ${selection} from todos ${ups.substring(0, ups.length - 4)}`
+function selectJoin(selection, condition, ...tables) {
     let joins = '';
     for (let i = 0; i < tables.length; i++) {
         let prevTable = (i == 0) ? 'todos' : tables[i - 1].tableName;
